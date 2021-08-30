@@ -1,0 +1,56 @@
+<h1 id="npoi---tests">NPOI - Tests</h1>
+<p>Test the NPOI Library</p>
+<h2 id="used-components">Used components</h2>
+<ul>
+<li>Logging - <a href="https://logging.apache.org/log4net/">log4net</a></li>
+</ul>
+<h3 id="logging">Logging</h3>
+<p>To enable logging install the <a href="https://logging.apache.org/log4net/">log4net</a> package.</p>
+<pre class="console"><code>dotnet add package log4net</code></pre>
+<p>Now add this attribute to your namespace.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c#"><code class="sourceCode cs"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>assembly<span class="op">:</span> log4net<span class="op">.</span><span class="fu">Config</span><span class="op">.</span><span class="fu">XmlConfigurator</span><span class="op">(</span>Watch <span class="op">=</span> <span class="kw">true</span><span class="op">)]</span></span></code></pre></div>
+<p>And create the log ILog object in your programs main class.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c#"><code class="sourceCode cs"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span> <span class="kw">static</span> <span class="kw">readonly</span> ILog log <span class="op">=</span> LogManager<span class="op">.</span><span class="fu">GetLogger</span><span class="op">(</span>System<span class="op">.</span><span class="fu">Reflection</span><span class="op">.</span><span class="fu">MethodBase</span><span class="op">.</span><span class="fu">GetCurrentMethod</span><span class="op">().</span><span class="fu">DeclaringType</span><span class="op">);</span></span></code></pre></div>
+<p>Now add an App.config to your <code>.csproj</code>’s <code>&lt;PropertyGroup&gt;</code></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">PropertyGroup</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    ...</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">AppConfig</span>&gt;App.config&lt;/<span class="kw">AppConfig</span>&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">PropertyGroup</span>&gt;</span></code></pre></div>
+<p>and create the <code>App.config</code> file with that content:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">&quot;1.0&quot;</span><span class="ot"> encoding=</span><span class="st">&quot;utf-8&quot;</span> <span class="fu">?&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">configuration</span>&gt;</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">configSections</span>&gt;</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">section</span><span class="ot"> name=</span><span class="st">&quot;log4net&quot;</span><span class="ot"> type=</span><span class="st">&quot;log4net.Config.Log4NetConfigurationSectionHandler, log4net&quot;</span> /&gt;</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">configSections</span>&gt;</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">log4net</span>&gt;</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">appender</span><span class="ot"> name=</span><span class="st">&quot;ConsoleAppender&quot;</span><span class="ot"> type=</span><span class="st">&quot;log4net.Appender.ConsoleAppender&quot;</span> &gt;</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">layout</span><span class="ot"> type=</span><span class="st">&quot;log4net.Layout.PatternLayout&quot;</span>&gt;</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                &lt;<span class="kw">conversionPattern</span><span class="ot"> value=</span><span class="st">&quot;%date [%thread] %-5level %logger [%ndc] - %message%newline&quot;</span> /&gt;</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">appender</span>&gt;</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">appender</span><span class="ot"> name=</span><span class="st">&quot;RollingFile&quot;</span><span class="ot"> type=</span><span class="st">&quot;log4net.Appender.RollingFileAppender&quot;</span>&gt;</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">file</span><span class="ot"> value=</span><span class="st">&quot;npoi-test.log&quot;</span> /&gt;</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">appendToFile</span><span class="ot"> value=</span><span class="st">&quot;true&quot;</span> /&gt;</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">maximumFileSize</span><span class="ot"> value=</span><span class="st">&quot;100KB&quot;</span> /&gt;</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">maxSizeRollBackups</span><span class="ot"> value=</span><span class="st">&quot;2&quot;</span> /&gt;</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">layout</span><span class="ot"> type=</span><span class="st">&quot;log4net.Layout.PatternLayout&quot;</span>&gt;</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                &lt;<span class="kw">conversionPattern</span><span class="ot"> value=</span><span class="st">&quot;%date [%thread] %-5level %logger [%ndc] - %message%newline&quot;</span> /&gt;</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>            &lt;/<span class="kw">layout</span>&gt;</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">appender</span>&gt;</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">root</span>&gt;</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">level</span><span class="ot"> value=</span><span class="st">&quot;INFO&quot;</span> /&gt;</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">appender-ref</span><span class="ot"> ref=</span><span class="st">&quot;ConsoleAppender&quot;</span> /&gt;</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">appender-ref</span><span class="ot"> ref=</span><span class="st">&quot;RollingFile&quot;</span> /&gt;</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">root</span>&gt;</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">log4net</span>&gt;</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">configuration</span>&gt;</span></code></pre></div>
+<p>This <a href="https://logging.apache.org/log4net/">log4net</a> configuration adds an Console appender and an RollingFile appender as well. In your functions use the <code>log</code> object for debug messages.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c#"><code class="sourceCode cs"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>log<span class="op">.</span><span class="fu">Info</span><span class="op">(</span><span class="st">&quot;Entering application.&quot;</span><span class="op">);</span></span></code></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c#"><code class="sourceCode cs"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>log<span class="op">.</span><span class="fu">Error</span><span class="op">(</span><span class="st">&quot;Error!&quot;</span><span class="op">);</span></span></code></pre></div>
+<h2 id="development">Development</h2>
+<h3 id="render-readme.md">Render README.md</h3>
+<pre class="console"><code>pandoc -f markdown -t html5 --standalone -o README.html .\README.md; start .\README.html</code></pre>
+<p><em><strong>Hint</strong>: You need <a href="https://pandoc.org/">pandoc</a> installed for the above command</em></p>
